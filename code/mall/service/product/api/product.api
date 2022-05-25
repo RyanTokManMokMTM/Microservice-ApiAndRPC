@@ -1,0 +1,72 @@
+syntax = "v1"
+
+//info(
+//    title: "type title here"
+//    desc: "type desc here"
+//    author: "type author here"
+//    email: "type email here"
+//    version: "type version here"
+//)
+
+type (
+	CreateRequest {
+		Name   string `json:"name"`
+		Desc   string `json:"desc"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount"`
+		Status int64  `json:"status"`
+	}
+
+	CreateResponse {
+		Id int64 `json:"id"`
+	}
+
+	// Update Product
+	UpdateRequest {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Desc   string `json:"desc"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount"`
+		Status int64  `json:"status"`
+	}
+
+	UpdateResponse struct{}
+
+	//delete product
+	DeleteRequest {
+		Id int64 `json:"id"`
+	}
+
+	DeleteResponse struct{}
+
+	//get product detail
+	DetailRequest {
+		Id int64 `json:"id"`
+	}
+
+	DetailResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Desc   string `json:"desc"`
+		Stock  int64  `json:"stock"`
+		Amount int64  `json:"amount"`
+		Status int64  `json:"status"`
+	}
+)
+@server(
+	jwt: Auth
+)
+service Product{
+	@handler Create
+	post /api/product/create(CreateRequest) returns (CreateResponse)
+	
+	@handler Update
+	post /api/product/update(UpdateRequest) returns (UpdateResponse)
+	
+	@handler Delete
+	delete /api/product/delete(DeleteRequest) returns (DeleteResponse)
+	
+	@handler Detail
+	get /api/product/detail(DetailRequest) returns (DetailResponse)
+}

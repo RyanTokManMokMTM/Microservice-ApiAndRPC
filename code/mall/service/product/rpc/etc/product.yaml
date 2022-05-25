@@ -1,0 +1,14 @@
+Name: product.rpc
+ListenOn: 0.0.0.0:9001
+Etcd:
+  Hosts:
+  - etcd:2379
+  Key: product.rpc
+
+Mysql:
+  DataSource: root:amin@tcp(mysql:3306)/mall?charset=utf8mb4&parseTime=true&loc=Asia%2FHong_Kong
+
+CacheRedis:
+  - Host: Redis:6379
+    Type: node
+    Pass:
