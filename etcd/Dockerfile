@@ -1,1 +1,3 @@
-FROM evildecay/etcdkeeper
+FROM bitnami/etcd
+
+LABEL maintainer="Ving <ving@nivin.cn>"

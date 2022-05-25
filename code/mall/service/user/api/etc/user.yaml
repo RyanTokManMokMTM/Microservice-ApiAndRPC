@@ -1,0 +1,23 @@
+Name: User
+Host: 0.0.0.0
+Port: 8888
+
+Mysql:
+  Datasource: root:admin@tcp(mysql:3306)/mall?charset=utf8mb4&parseTime=true&loc=Asia%2FHong_Kong
+
+CacheRedis:
+  - Host: redis:6379
+    Pass:
+    Type: node
+
+Auth:
+  AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
+  AccessExpire: 86400 # a day?
+
+
+#RPC Setting
+UserRPC:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: user.rpc

@@ -1,0 +1,58 @@
+//Define data
+type (
+	//login request
+	LoginRequest {
+		Mobile   string `json:":"mobile"`
+		Password string `json:"password"`
+	}
+
+	//login response
+	LoginResponse {
+		AccessToken   string `json:"accessToken"`
+		AccessExpired int64  `json:"accessExpire"`
+	}
+
+	//register request
+	RegisterRequest {
+		Name     string `json:"name"`
+		Gender   int64  `json:"gender"`
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+
+	//register response
+	RegisterResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Gender int64  `json:"gender"`
+		Mobile string `json:"mobile"`
+	}
+
+	//User response
+	UserInfoResponse {
+		Id     int64  `json:"id"`
+		Name   string `json:"name"`
+		Gender int64  `json:"gender"`
+		Mobile string `json:"mobile"`
+	}
+)
+
+//Define API Method
+
+service User{
+	@handler Login
+	post /api/user/login(LoginRequest) returns (LoginResponse)
+	
+	@handler Register
+	post /api/user/register(RegisterRequest) returns (RegisterResponse)
+}
+
+//Server setting
+@server(
+	jwt: Auth
+)
+service User{ //This service need jwt auth
+	@handler UserInfo //handel function name
+	post /api/user/userinfo() returns (UserInfoResponse)
+	//METHOD URI(request) reutns (response)
+}
