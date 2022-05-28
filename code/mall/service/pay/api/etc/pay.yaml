@@ -1,0 +1,22 @@
+Name: Pay
+Host: 0.0.0.0
+Port: 8003
+
+Mysql:
+  DataSource: root:admin@tcp(mysql:3306)\mall?
+
+CacheRedis:
+  - Host: redis:6379
+    type: node
+    pass
+
+Auth:
+  AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
+  AccessExpire: 86400
+
+
+PayRPC:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: pay.rpc

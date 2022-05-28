@@ -1,0 +1,19 @@
+Name: Order
+Host: 0.0.0.0
+Port: 8002
+
+
+CacheRedis:
+  - Host: redis:6379
+    type: node
+    pass:
+
+Auth:
+  AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
+  AccessExpire: 86400
+
+OrderRPC:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: order.rpc

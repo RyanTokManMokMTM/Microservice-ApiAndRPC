@@ -1,0 +1,26 @@
+Name: order.rpc
+ListenOn: 0.0.0.0:9003
+Etcd:
+  Hosts:
+  - etcd:2379
+  Key: order.rpc
+
+Mysql:
+  DataSource: root:admin@tcp(mysql:3306)/mall?charset=utf8mb4&parseTime=true&loc=Asia%2FHong_Kong
+
+CacheRedis:
+  - Host: redis:6379
+    type: node
+    pass:
+
+UserRPC:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: user.rpc
+
+ProductRPC:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: product.rpc

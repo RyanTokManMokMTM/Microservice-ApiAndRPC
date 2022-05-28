@@ -1,0 +1,57 @@
+syntax = "v1"
+//
+//info(
+//    title: "type title here"
+//    desc: "type desc here"
+//    author: "type author here"
+//    email: "type email here"
+//    version: "type version here"
+//)
+
+type (
+	CreateRequest {
+		Uid    int64 `json:"uid"`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+	}
+	CreateResponse {
+		Id int64 `json:"id"`
+	}
+
+	DetailReqeust {
+		Id int64 `json:"id"`
+	}
+	DetailResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid""`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+		Source int64 `json:"source"`
+		Status int64 `json:"status"`
+	}
+
+	//Pay callback
+	CallbackRequest {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid""`
+		Oid    int64 `json:"oid"`
+		Amount int64 `json:"amount"`
+		Source int64 `json:"source"`
+		Status int64 `json:"status"`
+	}
+	CallbackResponse struct{}
+)
+
+@server (
+	jwt : Auth
+)
+service Pay{
+	@handler Create
+	post /api/pay/create(CreateRequest) returns (CreateResponse)
+	
+	@handler Detail
+	get /api/pay/detail(DetailReqeust) returns (DetailResponse)
+	
+	@handler Callback
+	post /api/pay/callback(CallbackRequest) returns (CallbackResponse)
+}

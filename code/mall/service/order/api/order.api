@@ -1,0 +1,86 @@
+syntax = "v1"
+
+//info(
+//    title: "type title here"
+//    desc: "type desc here"
+//    author: "type author here"
+//    email: "type email here"
+//    version: "type version here"
+//)
+
+type (
+	CreateRequest {
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+
+	CreateResponse {
+		Id int64 `json:"id"`
+	}
+
+	UpdateRequest {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+
+	UpdateResponse {
+	}
+
+	DeleteRequest {
+		Id int64 `json:"id"`
+	}
+
+	DeleteResponse {
+	}
+
+	DetailRequest {
+		Id int64 `json:"id"`
+	}
+
+	DetailResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+
+	ListRequest {
+		Uid int64 `json:"uid"`
+	}
+
+	ListResponse {
+		Id     int64 `json:"id"`
+		Uid    int64 `json:"uid"`
+		Pid    int64 `json:"pid"`
+		Amount int64 `json:"amount"`
+		Status int64 `json:"status"`
+	}
+
+
+)
+
+@server(
+	jwt: Auth
+)
+service Order{
+	@handler Create
+	post /api/order/create(CreateRequest) returns (CreateResponse)
+	
+	@handler Update
+	post /api/order/update(UpdateRequest) returns (UpdateResponse)
+	
+	@handler Delete
+	delete /api/order/delete(DeleteRequest) returns (DeleteResponse)
+	
+	@handler Detail
+	get /api/order/detail(DetailRequest) returns (DetailResponse)
+	
+	@handler List
+	get /api/order/list(ListRequest) returns ([]ListResponse)
+}

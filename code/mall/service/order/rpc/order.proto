@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package order;
+option go_package = "./order";
+
+message CreateRequest{
+  int64 Uid = 1;
+  int64 Pid = 2;
+  int64 Amount = 3;
+  int64 Status = 4;
+}
+message CreateResponse{
+  int64 Id = 1;
+}
+
+message UpdateRequest{
+  int64 Id = 1;
+  int64 Uid = 2;
+  int64 Pid = 3;
+  int64 Amount = 4;
+  int64 Status = 5;
+}
+message UpdateResponse{}
+
+message DetailRequest{
+  int64 Id = 1;
+}
+message DetailResponse{
+  int64 Id = 1;
+  int64 Uid = 2;
+  int64 Pid = 3;
+  int64 Amount = 4;
+  int64 Status = 5;
+}
+
+message DeleteRequest{
+  int64 Id = 1;
+}
+message DeleteResponse{}
+
+message ListRequest{
+  int64 Uid = 2;
+}
+message ListResponse{
+  repeated DetailResponse data = 1;
+}
+
+message PaidRequest{
+  int64 Id = 1;
+}
+message PaidResponse{}
+
+service Order{
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+  rpc Detail(DetailRequest) returns (DetailResponse);
+  rpc Paid(PaidRequest) returns (PaidResponse);
+  rpc List(ListRequest) returns(ListResponse);
+}
