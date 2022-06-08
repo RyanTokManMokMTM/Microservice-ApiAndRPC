@@ -1,8 +1,6 @@
 Name: Order
 Host: 0.0.0.0
 Port: 8002
-
-
 CacheRedis:
   - Host: redis:6379
     type: node
@@ -17,3 +15,9 @@ OrderRPC:
     Hosts:
       - etcd:2379
     Key: order.rpc
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9082
+  Path: /metrics

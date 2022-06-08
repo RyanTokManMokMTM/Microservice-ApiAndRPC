@@ -2,7 +2,7 @@
 package types
 
 type LoginRequest struct {
-	Mobile   string `json:":"mobile"`
+	Mobile   string `json:"mobile"`
 	Password string `json:"password"`
 }
 
@@ -30,4 +30,8 @@ type UserInfoResponse struct {
 	Name   string `json:"name"`
 	Gender int64  `json:"gender"`
 	Mobile string `json:"mobile"`
+}
+
+type PongResponse struct {
+	Message string `json:"message"`
 }

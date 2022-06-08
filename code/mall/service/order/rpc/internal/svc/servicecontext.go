@@ -19,10 +19,11 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	sqlConn := sqlx.NewMysql(c.Mysql.DataSource)
+
 	return &ServiceContext{
 		Config:     c,
 		OrderModel: model.NewOrderModel(sqlConn, c.CacheRedis),
-		UserRPC:    user.NewUSer(zrpc.MustNewClient(c.UserPRC)),
-		ProductRPC: product.NewProduct(zrpc.MustNewClient(c.ProductRPC)),
+		UserRPC:    user.NewUSer(zrpc.MustNewClient(c.UserRpc)),
+		ProductRPC: product.NewProduct(zrpc.MustNewClient(c.ProductRpc)),
 	}
 }

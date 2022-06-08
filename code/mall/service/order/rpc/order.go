@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-
 	"mall/service/order/rpc/internal/config"
 	"mall/service/order/rpc/internal/server"
 	"mall/service/order/rpc/internal/svc"
@@ -23,6 +22,7 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+
 	ctx := svc.NewServiceContext(c)
 	svr := server.NewOrderServer(ctx)
 

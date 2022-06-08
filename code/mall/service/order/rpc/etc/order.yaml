@@ -1,8 +1,9 @@
 Name: order.rpc
-ListenOn: 0.0.0.0:9003
+ListenOn: 0.0.0.0:9002
+
 Etcd:
   Hosts:
-  - etcd:2379
+    - etcd:2379
   Key: order.rpc
 
 Mysql:
@@ -13,14 +14,20 @@ CacheRedis:
     type: node
     pass:
 
-UserRPC:
+UserRpc:
   Etcd:
     Hosts:
       - etcd:2379
     Key: user.rpc
 
-ProductRPC:
+ProductRpc:
   Etcd:
     Hosts:
       - etcd:2379
     Key: product.rpc
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9092
+  Path: /metrics

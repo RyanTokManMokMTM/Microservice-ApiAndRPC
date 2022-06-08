@@ -2,7 +2,7 @@
 type (
 	//login request
 	LoginRequest {
-		Mobile   string `json:":"mobile"`
+		Mobile   string `json:"mobile"`
 		Password string `json:"password"`
 	}
 
@@ -35,6 +35,10 @@ type (
 		Gender int64  `json:"gender"`
 		Mobile string `json:"mobile"`
 	}
+
+	PongResponse {
+		Message string `json:"message"`
+	}
 )
 
 //Define API Method
@@ -45,6 +49,9 @@ service User{
 	
 	@handler Register
 	post /api/user/register(RegisterRequest) returns (RegisterResponse)
+	
+	@handler CheckHealth
+	get /api/user/ping() returns (PongResponse)
 }
 
 //Server setting

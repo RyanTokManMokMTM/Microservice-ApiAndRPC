@@ -29,46 +29,48 @@ scrape_configs:
       - targets: ["localhost:9090"]
 
   # 我们自己的商城项目配置
-  - job_name: 'mall'
+  - job_name: 'My_mall'
     static_configs:
-      # 目标的采集地址
-      - targets: ['golang:9080']
-        labels:
-          # 自定义标签
-          app: 'user-api'
-          env: 'test'
+      # Target Data Address
 
-      - targets: ['golang:9090']
-        labels:
-          app: 'user-rpc'
-          env: 'test'
+      #api service
+      - targets: ['golang:9080']
+        labels: # custom labels
+            app: "user-api"
+            env: "test"
 
       - targets: ['golang:9081']
-        labels:
-          app: 'product-api'
-          env: 'test'
-
-      - targets: ['golang:9091']
-        labels:
-          app: 'product-rpc'
-          env: 'test'
+        labels: # custom labels
+          app: "product-api"
+          env: "test"
 
       - targets: ['golang:9082']
-        labels:
-          app: 'order-api'
-          env: 'test'
-
-      - targets: ['golang:9092']
-        labels:
-          app: 'order-rpc'
-          env: 'test'
+        labels: # custom labels
+          app: "pay-api"
+          env: "test"
 
       - targets: ['golang:9083']
-        labels:
-          app: 'pay-api'
-          env: 'test'
+        labels: # custom labels
+          app: "order-api"
+          env: "test"
+
+      #RPC Service
+      - targets: ['golang:9090']
+        labels: # custom labels
+          app: "order-rpc"
+          env: "test"
+
+      - targets: ['golang:9091']
+        labels: # custom labels
+          app: "product-rpc"
+          env: "test"
+
+      - targets: ['golang:9092']
+        labels: # custom labels
+          app: "pay-rpc"
+          env: "test"
 
       - targets: ['golang:9093']
-        labels:
-          app: 'pay-rpc'
-          env: 'test'
+        labels: # custom labels
+          app: "order-rpc"
+          env: "test"

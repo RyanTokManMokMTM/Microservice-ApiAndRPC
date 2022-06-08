@@ -14,3 +14,22 @@ CacheRedis:
     Pass:
 
 Salt: HWVOFkGgPTryzICwd7qnJaZR9KQ2i8xe
+
+## Using Redis to record token
+## which services : token
+
+Auth: true # turn on Authorization
+StrictControl: true #Strict mode
+
+## Redis setting - Not Cache in this case
+Redis:
+  Key: rpc:auth:user
+  Host: redis:6379
+  Type: node
+  Pass:
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9090
+  Path: /metrics
