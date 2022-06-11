@@ -40,9 +40,22 @@ message DetailResponse{
   int64 Amount = 5;
   int64 Status = 6;
 }
+
+message DecrStockRequest{
+  int64 id = 1;
+  int64 num = 2;
+}
+message DecrStockResponse{}
+
 service Product{
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc Update(UpdateRequest) returns (UpdateResponse);
   rpc Delete(DeleteRequest) returns (DeleteResponse);
   rpc Detail(DetailRequest) returns (DetailResponse);
+
+  //DTM function
+  //commit and rollback/revert
+  rpc DecrStock(DetailRequest) returns (DecrStockResponse);
+  rpc DecrStockRevert(DetailRequest) returns (DetailResponse);
+
 }

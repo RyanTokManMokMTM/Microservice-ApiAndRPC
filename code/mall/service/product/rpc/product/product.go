@@ -13,20 +13,25 @@ import (
 )
 
 type (
-	CreateRequest  = product.CreateRequest
-	CreateResponse = product.CreateResponse
-	DeleteRequest  = product.DeleteRequest
-	DeleteResponse = product.DeleteResponse
-	DetailRequest  = product.DetailRequest
-	DetailResponse = product.DetailResponse
-	UpdateRequest  = product.UpdateRequest
-	UpdateResponse = product.UpdateResponse
+	CreateRequest     = product.CreateRequest
+	CreateResponse    = product.CreateResponse
+	DecrStockRequest  = product.DecrStockRequest
+	DecrStockResponse = product.DecrStockResponse
+	DeleteRequest     = product.DeleteRequest
+	DeleteResponse    = product.DeleteResponse
+	DetailRequest     = product.DetailRequest
+	DetailResponse    = product.DetailResponse
+	UpdateRequest     = product.UpdateRequest
+	UpdateResponse    = product.UpdateResponse
 
 	Product interface {
 		Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 		Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 		Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 		Detail(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailResponse, error)
+		// DTM function
+		DecrStock(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DecrStockResponse, error)
+		DecrStockRevert(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailResponse, error)
 	}
 
 	defaultProduct struct {
@@ -58,4 +63,15 @@ func (m *defaultProduct) Delete(ctx context.Context, in *DeleteRequest, opts ...
 func (m *defaultProduct) Detail(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailResponse, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.Detail(ctx, in, opts...)
+}
+
+// DTM function
+func (m *defaultProduct) DecrStock(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DecrStockResponse, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.DecrStock(ctx, in, opts...)
+}
+
+func (m *defaultProduct) DecrStockRevert(ctx context.Context, in *DetailRequest, opts ...grpc.CallOption) (*DetailResponse, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.DecrStockRevert(ctx, in, opts...)
 }

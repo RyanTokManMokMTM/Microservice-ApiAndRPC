@@ -2,14 +2,15 @@ package logic
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"github.com/dtm-labs/dtmgrpc"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"google.golang.org/grpc/status"
 	"mall/service/order/model"
-	"mall/service/product/rpc/types/product"
-	"mall/service/user/rpc/type/user"
-
 	"mall/service/order/rpc/internal/svc"
 	"mall/service/order/rpc/types/order"
+	"mall/service/user/rpc/type/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,61 +32,47 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 func (l *CreateLogic) Create(in *order.CreateRequest) (*order.CreateResponse, error) {
 	// todo: add your logic here and delete this line
 
-	//Check user
-	_, err := l.svcCtx.UserRPC.UserInfo(l.ctx, &user.UserInfoRequest{
-		Id: in.Uid,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	//Check product
-	productResult, err := l.svcCtx.ProductRPC.Detail(l.ctx, &product.DetailRequest{
-		Id: in.Pid,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	//check stock
-	if productResult.Stock <= 0 {
-		return nil, status.Error(500, fmt.Sprintf("Product is not enough"))
-	}
-
-	//Create an order
-	newOrder := model.Order{
-		Uid:    in.Uid,
-		Pid:    in.Pid,
-		Amount: in.Amount,
-		Status: 0,
-	}
-
-	res, err := l.svcCtx.OrderModel.Insert(l.ctx, &newOrder)
+	//getting Raw DB
+	db, err := sqlx.NewMysql(l.svcCtx.Config.Mysql.DataSource).RawDB()
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}
 
-	newOrder.Id, err = res.LastInsertId()
+	//getting barrier
+	barrier, err := dtmgrpc.BarrierFromGrpc(l.ctx)
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}
 
-	//update product stock , -1
-	_, err = l.svcCtx.ProductRPC.Update(l.ctx, &product.UpdateRequest{
-		Id:     productResult.Id,
-		Name:   productResult.Name,
-		Desc:   productResult.Desc,
-		Amount: productResult.Amount,
-		Stock:  productResult.Stock - 1,
-		Status: productResult.Status,
+	err = barrier.CallWithDB(db, func(tx *sql.Tx) error {
+		//Check user
+		_, err := l.svcCtx.UserRPC.UserInfo(l.ctx, &user.UserInfoRequest{
+			Id: in.Uid,
+		})
+
+		if err != nil {
+			return fmt.Errorf("user not found")
+		}
+
+		//Create an order
+		newOrder := model.Order{
+			Uid:    in.Uid,
+			Pid:    in.Pid,
+			Amount: in.Amount,
+			Status: 0,
+		}
+
+		_, err = l.svcCtx.OrderModel.TxInsert(tx, &newOrder)
+		if err != nil {
+			return fmt.Errorf("created order failed")
+		}
+
+		return nil
 	})
 
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}
-	return &order.CreateResponse{
-		Id: newOrder.Id,
-	}, nil
+
+	return &order.CreateResponse{}, nil
 }
