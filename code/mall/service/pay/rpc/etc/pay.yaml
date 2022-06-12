@@ -26,6 +26,11 @@ OrderRPC:
       - etcd:2379
     Key: order.rpc
 
+Redis:
+  Key: rpc:auth:pay
+  Host: redis:2379
+  type: node
+  pass:
 
 Prometheus:
   Host: 0.0.0.0

@@ -17,11 +17,12 @@ Auth:
 
 #RPC Service
 ProductRPC:
+  App: productAPI
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV
   Etcd:
     Hosts:
       - etcd:2379
     Key: product.rpc
-
 
 Prometheus:
   Host: 0.0.0.0

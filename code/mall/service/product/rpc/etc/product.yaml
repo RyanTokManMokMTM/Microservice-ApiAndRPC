@@ -13,6 +13,12 @@ CacheRedis:
     Type: node
     Pass:
 
+Redis:
+  Key: rpc:auth:product
+  Host: Redis:6379
+  Type: node
+  Pass:
+
 
 Prometheus:
   Host: 0.0.0.0

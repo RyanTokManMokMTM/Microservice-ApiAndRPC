@@ -17,6 +17,8 @@ Auth:
 
 
 PayRPC:
+  App: payAPI
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV
   Etcd:
     Hosts:
       - etcd:2379

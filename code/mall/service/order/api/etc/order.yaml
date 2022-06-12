@@ -11,6 +11,8 @@ Auth:
   AccessExpire: 86400
 
 OrderRPC:
+  App: orderAPI
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV
   Etcd:
     Hosts:
       - etcd:2379
